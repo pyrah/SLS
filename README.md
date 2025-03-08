@@ -66,7 +66,7 @@ Vous n'avez que **2 valeurs à modifier** (hors configuration standard `api`, `o
 The code is designed to be **easy to understand and configure**.  
 You only need to **change 2 values** (excluding standard settings like `api`, `ota`, and `ap`) to adapt it to your water softener:  
 
-![Configuration](images/config.png)
+![Configuration](images/config_en.png)
 
 ---
 
