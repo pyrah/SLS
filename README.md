@@ -33,6 +33,7 @@ Si vous voyez ceci dans les logs :
 ```bash
 [22:47:30][W][component:237]: Component template.sensor took a long time for an operation (52 ms).
 [22:47:30][W][component:238]: Components should block for at most 30 ms.
+```
 
 	•	ESPHome recommande que chaque composant ne bloque pas l’exécution principale plus de 30 ms.
 	•	Ici, le template sensor (Percentage) met 52 ms, ce qui dépasse la limite recommandée.
@@ -68,3 +69,4 @@ Si vous voyez ceci dans les logs :
     ESP_LOGD("DEBUG", "✅ Pourcentage = %.2f%%", percentage);
 
     return percentage;
+```
