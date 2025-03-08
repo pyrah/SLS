@@ -1,0 +1,87 @@
+esphome:
+  name: adoucisseur
+  friendly_name: Adoucisseur
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+
+globals:
+  - id: full_cm
+    type: float
+    initial_value: '49'
+  - id: empty_cm
+    type: float
+    initial_value: '85'
+
+sensor:
+  - platform: ultrasonic
+    trigger_pin: GPIO12
+    echo_pin: GPIO13
+    id: salt_level_distance
+    name: "Salt Level Distance"
+    update_interval: 10s
+    unit_of_measurement: "cm"
+    pulse_time: 10us
+    timeout: 2m  # Timeout défini en distance (mètres)
+    filters:
+      - multiply: 100  # Convertir directement en cm
+
+  - platform: template
+    name: "Percentage"
+    unit_of_measurement: '%'
+    icon: mdi:percent
+    lambda: |-
+      float distance_cm = id(salt_level_distance).state;  // Distance déjà en cm
+
+      ESP_LOGD("DEBUG", "=======================");
+      ESP_LOGD("DEBUG", "🔍 Valeurs lues :");
+      ESP_LOGD("DEBUG", "📏 Distance capteur = %f cm", distance_cm);
+      ESP_LOGD("DEBUG", "🎯 Valeur de full_cm = %f cm", id(full_cm));
+      ESP_LOGD("DEBUG", "🛑 Valeur de empty_cm = %f cm", id(empty_cm));
+
+      if (distance_cm <= id(full_cm)) {
+        ESP_LOGD("DEBUG", "✅ Distance <= full_cm → Retourne 100%");
+        return 100.0;
+      }
+
+      if (distance_cm >= id(empty_cm)) {
+        ESP_LOGD("DEBUG", "❌ Distance >= empty_cm → Retourne 0%");
+        return 0.0;
+      }
+
+      // Simplification totale du calcul
+      float range = id(empty_cm) - id(full_cm);
+      float filled = id(empty_cm) - distance_cm;
+      float percentage = (filled / range) * 100.0;
+
+      ESP_LOGD("DEBUG", "📊 Calcul : ((%f - %f) / (%f - %f)) * 100 = %f%%",
+        id(empty_cm), distance_cm, id(empty_cm), id(full_cm), percentage);
+
+      ESP_LOGD("DEBUG", "✅ Pourcentage final = %f%%", percentage);
+      ESP_LOGD("DEBUG", "=======================");
+
+      return percentage;
+
+api:
+  encryption:
+    key: "xxx"
+
+ota:
+  - platform: esphome
+    password: "xxxx"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case WiFi connection fails
+  ap:
+    ssid: "Adoucisseur Fallback Hotspot"
+    password: "xxx"
+
+captive_portal:
