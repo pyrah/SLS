@@ -38,7 +38,7 @@ ESPHome recommande que chaque composant ne bloque pas l’exécution principale 
 Ici, le template sensor (Percentage) met 52 ms, ce qui dépasse la limite recommandée.<br>
 C’est un avertissement, pas une erreur → Ça peut ralentir légèrement l’exécution des autres tâches, mais ça fonctionne toujours.<br>
 
-🔍 Pourquoi ce délai ?wbr<br>
+🔍 Pourquoi ce délai ?<br>
 	1.	Les logs ESP_LOGD prennent du temps 📋<br>
   À chaque mise à jour, plusieurs messages sont envoyés via le port série/WiFi, ce qui peut ralentir l’exécution.<br>
   2.	Le calcul du pourcentage implique des variables globales 🧮<br>
