@@ -34,16 +34,15 @@ Si vous voyez ceci dans les logs :
 [22:47:30][W][component:237]: Component template.sensor took a long time for an operation (52 ms).
 [22:47:30][W][component:238]: Components should block for at most 30 ms.
 ```
-
-	•	ESPHome recommande que chaque composant ne bloque pas l’exécution principale plus de 30 ms.
-	•	Ici, le template sensor (Percentage) met 52 ms, ce qui dépasse la limite recommandée.
-	•	C’est un avertissement, pas une erreur → Ça peut ralentir légèrement l’exécution des autres tâches, mais ça fonctionne toujours.
+ESPHome recommande que chaque composant ne bloque pas l’exécution principale plus de 30 ms.
+Ici, le template sensor (Percentage) met 52 ms, ce qui dépasse la limite recommandée.
+C’est un avertissement, pas une erreur → Ça peut ralentir légèrement l’exécution des autres tâches, mais ça fonctionne toujours.
 
 🔍 Pourquoi ce délai ?
 	1.	Les logs ESP_LOGD prennent du temps 📋
-	•	À chaque mise à jour, plusieurs messages sont envoyés via le port série/WiFi, ce qui peut ralentir l’exécution.
+	À chaque mise à jour, plusieurs messages sont envoyés via le port série/WiFi, ce qui peut ralentir l’exécution.
 	2.	Le calcul du pourcentage implique des variables globales 🧮
-	•	Accéder aux variables full_cm et empty_cm et faire des calculs flottants peut prendre un peu plus de temps.
+	Accéder aux variables full_cm et empty_cm et faire des calculs flottants peut prendre un peu plus de temps.
 
 📌 Est-ce grave ?
 
