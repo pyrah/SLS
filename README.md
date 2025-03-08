@@ -34,21 +34,22 @@ Si vous voyez ceci dans les logs :
 [22:47:30][W][component:237]: Component template.sensor took a long time for an operation (52 ms).
 [22:47:30][W][component:238]: Components should block for at most 30 ms.
 ```
-ESPHome recommande que chaque composant ne bloque pas l’exécution principale plus de 30 ms.
-Ici, le template sensor (Percentage) met 52 ms, ce qui dépasse la limite recommandée.
-C’est un avertissement, pas une erreur → Ça peut ralentir légèrement l’exécution des autres tâches, mais ça fonctionne toujours.
+ESPHome recommande que chaque composant ne bloque pas l’exécution principale plus de 30 ms.<br>
+Ici, le template sensor (Percentage) met 52 ms, ce qui dépasse la limite recommandée.<br>
+C’est un avertissement, pas une erreur → Ça peut ralentir légèrement l’exécution des autres tâches, mais ça fonctionne toujours.<br>
 
-🔍 Pourquoi ce délai ?
-	1.	Les logs ESP_LOGD prennent du temps 📋
-	À chaque mise à jour, plusieurs messages sont envoyés via le port série/WiFi, ce qui peut ralentir l’exécution.
-	2.	Le calcul du pourcentage implique des variables globales 🧮
-	Accéder aux variables full_cm et empty_cm et faire des calculs flottants peut prendre un peu plus de temps.
+🔍 Pourquoi ce délai ?wbr<br>
+	1.	Les logs ESP_LOGD prennent du temps 📋<br>
+  À chaque mise à jour, plusieurs messages sont envoyés via le port série/WiFi, ce qui peut ralentir l’exécution.<br>
+  2.	Le calcul du pourcentage implique des variables globales 🧮<br>
+  Accéder aux variables full_cm et empty_cm et faire des calculs flottants peut prendre un peu plus de temps.<br>
 
-📌 Est-ce grave ?
-
-❌ Non, ce n’est pas une erreur critique.
-📌 Si tu ne remarques aucun bug ni latence, tu peux ignorer cet avertissement.
-✔️ Mais si tu veux optimiser, applique la version optimisée ci-dessus.
+📌 Est-ce grave ?<br>
+<br>
+❌ Non, ce n’est pas une erreur critique.<br>
+📌 Si tu ne remarques aucun bug ni latence, tu peux ignorer cet avertissement.<br>
+✔️ Mais si tu veux optimiser, applique la version optimisée ci-dessus.<br>
+<br>
 
 ```yaml
 - platform: template
